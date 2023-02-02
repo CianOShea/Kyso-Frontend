@@ -18,6 +18,9 @@ export const reportSlice = createSlice({
     reports: jsonData.reports
   },
   reducers: {
+    setReports: (state, action) => {
+      state.reports = action.payload.reports
+    },
     editReport: (state, action) => {
       state.reports.map(report => {
         if(report.id == action.payload.report_id){
@@ -58,6 +61,6 @@ export const reportSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { editReport, incrementReportStars, decrementReportStars, incrementReportViews } = reportSlice.actions
+export const { editReport, incrementReportStars, decrementReportStars, incrementReportViews, setReports } = reportSlice.actions
 
 export default reportSlice.reducer

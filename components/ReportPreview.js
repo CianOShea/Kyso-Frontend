@@ -5,14 +5,13 @@ import { FaEye, FaCommentDots, FaShareAlt, FaRegEdit } from 'react-icons/fa'
 import { AiTwotoneStar, AiOutlineStar } from 'react-icons/ai'
 import { Badge, toaster } from 'evergreen-ui'
 import { useDispatch } from 'react-redux'
-import { incrementReportStars, decrementReportStars } from '../slices/reportSlices'
+import { incrementReportStars, decrementReportStars, setReports } from '../slices/reportSlices'
 
 export default function ReportPreview({reports}) {
 
   const dispatch = useDispatch()  
 
   const [shownReports, setShownReports] = useState([])
-  const [needsReset, setNeedsReset] = useState(false)
 
   const storageLocation = "https://d1kser01wv8mbw.cloudfront.net/"
 
@@ -42,7 +41,7 @@ export default function ReportPreview({reports}) {
         return 0;
       }      
     });  
-    setShownReports(reorderedReports)
+    dispatch(setReports({ reports: reorderedReports }))
   }
 
   if(!shownReports){
