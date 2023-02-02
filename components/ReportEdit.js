@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router';
 import { editReport } from '../slices/reportSlices'
-import { TagInput, TextInput, Textarea  } from "evergreen-ui";
+import { TagInput, toaster  } from "evergreen-ui";
 
 export default function ReportEdit({report}) {
   const router = useRouter();
@@ -24,8 +24,15 @@ export default function ReportEdit({report}) {
 
 
   const editCurrentReport = () => {
-    dispatch(editReport({report_id: report.id, report_name: currentReportName, report_title: currentReportTitle, report_tags: currentTags}))
-    router.push('/')
+    try {
+      dispatch(editReport({report_id: report.id, report_name: currentReportName, report_title: currentReportTitle, report_tags: currentTags}))
+      toaster.success('Report successfully edited.')
+      router.push('/')
+    } catch (error) {
+      toaster.danger('An error occured while editing the report. Please try again.')
+      console.error(error);
+    }
+    
   }
 
 

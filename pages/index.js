@@ -5,8 +5,6 @@ export default function Home() {
 
   const reports = useSelector(state => state.data.reports) 
 
-  console.log(reports);
-
   return (    
     <div>
       <header className="bg-white shadow">

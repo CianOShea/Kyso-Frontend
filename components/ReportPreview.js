@@ -25,13 +25,10 @@ export default function ReportPreview({reports}) {
   }, [reports])
 
   const reorderReports = ({ report_id, tag }) => {
-    console.log(report_id);
     let arrayForSorting = [...shownReports]
     const reorderedReports = arrayForSorting.sort((a, b) => {
       const tagInA = a.tags.includes(tag);
       const tagInB = b.tags.includes(tag);
-
-      console.log(tagInA);
 
       if (tagInA && !tagInB) {
         return -1;
@@ -54,7 +51,7 @@ export default function ReportPreview({reports}) {
         shownReports.map((report) => (
           <ul key={report.id} report={report}>
             <article className="flex sm:flex-row flex-col m-12 p-6 bg-white rounded-lg border border-gray-200 shadow-md">
-              <img className="sm:w-1/3 sm:pr-4 w-full " src={report.preview ? storageLocation + report.preview : report.owner.avatar_url} alt={report.owner.name} />
+              <img className="sm:w-1/3 sm:pr-4 w-full max-w-[300px] m-auto" src={report.preview ? storageLocation + report.preview : report.owner.avatar_url} alt={report.owner.name} />
               <div className="flex flex-col justify-between sm:w-2/3 w-full">
                 <div className="flex justify-between w-full items-center mb-5 text-gray-500">                  
                     <span className="text-sm">{format(new Date(report.created_at), 'MMMM dd, yyyy')}</span>
