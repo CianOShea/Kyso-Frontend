@@ -4,26 +4,29 @@
       "id": "60ed83e641fd1f00198cd797",
       "number_of_comments": 243,
       "stars": 12,
-      "views": 7878,
+      "views": 7871,
       "starred": false
     },
     {
       "id": "wJukzCoOZb",
       "number_of_comments": 17,
-      "stars": 1,
-      "views": 44
+      "stars": 2,
+      "views": 44,
+      "starred": true
     },
     {
       "id": "qAzWwvK5YD",
       "number_of_comments": 1,
-      "stars": 0,
-      "views": 1
+      "stars": 1,
+      "views": 2,
+      "starred": true
     },
     {
       "id": "eH6zqOj1xS",
       "number_of_comments": 0,
-      "stars": 0,
-      "views": 0
+      "stars": 1,
+      "views": 0,
+      "starred": true
     },
     {
       "id": "bjdtphxCMw",
@@ -52,8 +55,9 @@
     {
       "id": "0YXPP1wUbQ",
       "number_of_comments": 33,
-      "stars": 1,
-      "views": 987
+      "stars": 2,
+      "views": 987,
+      "starred": true
     },
     {
       "id": "GNB3zs26jy",
@@ -70,7 +74,7 @@
   ],
   "reports": [
     {
-      "name": "test1234",
+      "name": "test1asc",
       "provider": {
         "source": "github",
         "owner": "eoinmurray",
@@ -95,20 +99,23 @@
           "ui": "/teams/acme"
         }
       },
-      "full_name": "acme/test1234",
+      "full_name": "acme/test1asc",
       "id": "60ed83e641fd1f00198cd797",
       "created_at": "2021-07-13T12:15:34.899Z",
       "self_url": {
-        "api": "https:,,staging.api.kyso.io,v1,reports,acme,test1/acme/test1234",
-        "ui": "/reports/acme/test1234"
+        "api": "https:,,staging.api.kyso.io,v1,reports,acme,test1/acme/test1asc",
+        "ui": "/reports/acme/test1asc"
       },
       "branches_url": {
-        "api": "/acme/test1234/branches",
-        "ui": "/reports/acme/test1234/branches"
+        "api": "/acme/test1asc/branches",
+        "ui": "/reports/acme/test1asc/branches"
       },
-      "title": "test",
+      "report_id": "60ed83e641fd1f00198cd797",
+      "title": "acsasc\n",
       "tags": [
-        "test"
+        "acs",
+        "asc",
+        "asc"
       ]
     },
     {

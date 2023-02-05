@@ -84,7 +84,7 @@ export default function ReportPreview({reports}) {
                     report.tags ?
 
                     report.tags.map((tag, index) => (
-                      <ul key={index} tag={tag}>
+                      <ul key={index} tag={tag} className="cursor-pointer">
                         <Badge onClick={() => reorderReports({ report_id: report.id, tag: tag})} color='blue' marginRight={8}>{tag}</Badge>
                       </ul>
                     ))

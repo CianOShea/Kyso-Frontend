@@ -3,9 +3,13 @@ import Link from "next/link";
 import { useRouter } from 'next/router';
 import { Spinner, TagInput, toaster  } from "evergreen-ui";
 import axios from "axios";
+import { editReport } from "../slices/reportSlices";
+import { useDispatch } from "react-redux";
 
 export default function ReportEdit({report}) {
+  
   const router = useRouter();
+  const dispatch = useDispatch()
 
   const [currentReport, setCurrentReport] = useState({ name: '', title: '', tags: [] })
   const [isLoading, setIsLoading] = useState(true)
@@ -20,8 +24,9 @@ export default function ReportEdit({report}) {
 
   const editCurrentReport = async () => {
     try {
-      setIsLoading(true)
+      setIsLoading(true)      
       const params = {
+        report_id: currentReport.id,
         name: currentReport.name,
         title: currentReport.title,
         tags: currentReport.tags,
@@ -35,6 +40,8 @@ export default function ReportEdit({report}) {
           ui: `/reports/${currentReport.owner.name}/${currentReport.name}/branches`
         }
       }
+      dispatch(editReport(params))
+      
       await axios.patch(`http://localhost:3010/reports/${report.id}`, params)      
       toaster.success('Report successfully edited.')
       router.push('/')

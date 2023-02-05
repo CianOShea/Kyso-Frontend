@@ -12,6 +12,21 @@ export const reportSlice = createSlice({
     setReports: (state, action) => {    
       state.reports = action.payload
     },
+    editReport: (state, action) => {
+      state.reports.map(report => {
+        if(report.id == action.payload.report_id){
+          report.name = action.payload.name
+          report.title = action.payload.title
+          report.tags = action.payload.tags
+          report.full_name = action.payload.full_name
+          report.self_url.api = action.payload.self_url.api
+          report.self_url.ui = action.payload.self_url.ui
+          report.branches_url.api = action.payload.branches_url.api
+          report.branches_url.ui = action.payload.branches_url.ui
+        }        
+      })
+      state.reports = state.reports
+    },
     incrementReportStars: (state, action) => {
       state.reports.map(report => {
         if(report.id == action.payload){
