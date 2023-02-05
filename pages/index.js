@@ -1,9 +1,16 @@
-import { useSelector } from 'react-redux'
 import ReportPreview from "../components/ReportPreview"
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from "react-redux";
+import { fetchReports } from '../slices/reportSlices'
 
 export default function Home() {
 
+  const dispatch = useDispatch();
   const reports = useSelector(state => state.data.reports) 
+  
+  useEffect(() => {
+    dispatch(fetchReports());
+  },[])
 
   return (    
     <div>

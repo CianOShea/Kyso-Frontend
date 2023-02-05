@@ -1,35 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit'
-import jsonData from '../pages/api/json-server.json'
-import JSZip from 'jszip';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import axios from 'axios'
 
-jsonData.reports.map((report) => {
-  var currentSocial = jsonData.social.filter(socialData => socialData.id == report.id)
-  report.number_of_comments = currentSocial[0].number_of_comments
-  report.stars = currentSocial[0].stars
-  report.views = currentSocial[0].views
-  report.starred = false
-  if(!report.tags){ report.tags = [] }
-})
-
+const initialState = {
+  reports: []
+}
 
 export const reportSlice = createSlice({
   name: 'reports',
-  initialState: {
-    reports: jsonData.reports
-  },
+  initialState,
   reducers: {
-    setReports: (state, action) => {
-      state.reports = action.payload.reports
-    },
-    editReport: (state, action) => {
-      state.reports.map(report => {
-        if(report.id == action.payload.report_id){
-          report.name = action.payload.report_name
-          report.title = action.payload.report_title
-          report.tags = action.payload.report_tags
-        }        
-      })
-      state.reports = state.reports
+    setReports: (state, action) => {    
+      state.reports = action.payload
     },
     incrementReportStars: (state, action) => {
       state.reports.map(report => {
@@ -56,11 +37,35 @@ export const reportSlice = createSlice({
         }        
       })
       state.reports = state.reports
-    }
+    }    
   }
 })
 
 // Action creators are generated for each case reducer function
 export const { editReport, incrementReportStars, decrementReportStars, incrementReportViews, setReports } = reportSlice.actions
 
+export const reportsSelector = (state) => state.items;
+
 export default reportSlice.reducer
+
+
+export function fetchReports() {
+  return async (dispatch) => {
+    axios.all([
+      axios.get("http://localhost:3010/reports"),
+      axios.get("http://localhost:3010/social")
+    ]).then(axios.spread((reports, social) => {
+      reports.data.map((report) => {
+        var currentSocial = social.data.filter(socialData => socialData.id == report.id)
+        report.number_of_comments = currentSocial[0].number_of_comments
+        report.stars = currentSocial[0].stars
+        report.views = currentSocial[0].views
+        if(currentSocial[0].starred) { report.starred = true } else { report.starred = false }
+        
+        if(!report.tags){ report.tags = [] }
+      })
+      dispatch(setReports(reports.data))
+    }))
+  };
+}
+

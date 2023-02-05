@@ -6,6 +6,7 @@ import { AiTwotoneStar, AiOutlineStar } from 'react-icons/ai'
 import { Badge, toaster } from 'evergreen-ui'
 import { useDispatch } from 'react-redux'
 import { incrementReportStars, decrementReportStars, setReports } from '../slices/reportSlices'
+import axios from "axios"
 
 export default function ReportPreview({reports}) {
 
@@ -38,7 +39,18 @@ export default function ReportPreview({reports}) {
         return 0;
       }      
     });  
-    dispatch(setReports({ reports: reorderedReports }))
+    dispatch(setReports(reorderedReports))
+  }
+
+  const increaseReportStars = async(report) => {
+    let newStarQuantity = report.stars + 1
+    await axios.patch(`http://localhost:3010/social/${report.id}`, { stars: newStarQuantity, starred: true })
+    dispatch(incrementReportStars(report.id))
+  }
+  const decreaseReportStars = async(report) => {
+    let newStarQuantity = report.stars - 1
+    await axios.patch(`http://localhost:3010/social/${report.id}`, { stars: newStarQuantity, starred: false })
+    dispatch(decrementReportStars(report.id))
   }
 
   if(!shownReports){
@@ -97,7 +109,7 @@ export default function ReportPreview({reports}) {
                         <FaEye className="mr-2"/>
                         {report.views}
                       </div>
-                      <div onClick={() => {report.starred ? dispatch(decrementReportStars(report.id)) : dispatch(incrementReportStars(report.id))}} className="cursor-pointer rounded-full p-2 flex flex-row justify-center items-center text-amber-600 hover:bg-amber-100">
+                      <div onClick={() => {report.starred ? decreaseReportStars(report) : increaseReportStars(report)}} className="cursor-pointer rounded-full p-2 flex flex-row justify-center items-center text-amber-600 hover:bg-amber-100">
                         {report.starred ? <AiTwotoneStar className="mr-2"/>  :  <AiOutlineStar className="mr-2"/>  }                        
                         {report.stars}
                       </div>

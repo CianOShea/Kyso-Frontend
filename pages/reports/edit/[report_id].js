@@ -1,24 +1,32 @@
 import React, { useEffect, useState } from "react"
-import { useSelector } from 'react-redux'
 import { useRouter } from 'next/router';
 import ReportEdit from "../../../components/ReportEdit";
+import axios from "axios";
+import { toaster } from "evergreen-ui";
 
 
 export default function Report() {
 
   const router = useRouter();
-  const reportID = router.query.report_id
-  const reports = useSelector(state => state.data.reports)
+  const report_id = router.query.report_id
 
-  const [currentReport, setCurrentReport] = useState([])
-  
+  const [currentReport, setCurrentReport] = useState({ name: '', title: '', tags: [] })  
   
   useEffect(() => { 
     // check Auth
-    let reportToEdit = reports.filter(report => report.id == reportID)
-    setCurrentReport(reportToEdit[0]) 
+    if(report_id){
+      getCurrentReport()
+    }
+  }, [report_id])  
 
-  }, [reportID])  
+  const getCurrentReport = async() => {
+    const response = await axios.get(`http://localhost:3010/reports/${report_id}`).catch(function(error) { 
+      toaster.warning('An error occured retrieving report.') 
+      router.push('/')
+    })
+    if(response){ setCurrentReport(response.data) }
+  }
+
 
   return (
     <div>
@@ -30,6 +38,7 @@ export default function Report() {
       <main>
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
           <div>
+            
             <ReportEdit report={currentReport}/>
           </div>
         </div>

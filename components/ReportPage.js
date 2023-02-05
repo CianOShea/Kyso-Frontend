@@ -1,29 +1,44 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { incrementReportViews } from '../slices/reportSlices'
-import { LoremIpsum } from 'react-lorem-ipsum';
+import axios from 'axios'
+import { Spinner } from 'evergreen-ui';
 
 export default function ReportPage({report}) {
 
   const dispatch = useDispatch()
 
-  const [currentReport, setCurrentReport] = useState([])
+  const [currentReport, setCurrentReport] = useState({ title: '' })
+  const [isLoading, setIsLoading] = useState(true)
 
   var updatedViewCount = false
+
+  const incrementViews = async() => {        
+    await axios.get(`http://localhost:3010/social/`, { params: { id: report.id } }).then(response => {
+        let newViewQuantity = response.data[0].views + 1 
+        axios.patch(`http://localhost:3010/social/${report.id}`, { views: newViewQuantity })
+      })        
+  }
   
   useEffect(() => {
     if(report){
       setCurrentReport(report);
+      setIsLoading(false)
 
       if(!updatedViewCount){
         dispatch(incrementReportViews(report.id))
+        incrementViews()
         updatedViewCount = true
       }
     }
   }, [report])
 
-  if(!report){
-    return null
+  if(isLoading){
+    return (
+      <div className="flex justify-center">
+        <Spinner/>
+      </div>
+    )
   }
 
   return (
